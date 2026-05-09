@@ -17,6 +17,6 @@ def market_agent(state):
 
     response = llm.invoke(prompt)
 
-    state["analysis"] = response.content
+    state["market_analysis"] = response.content
 
     return state

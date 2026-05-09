@@ -2,5 +2,13 @@ from typing import TypedDict, List, Dict, Any
 
 class StartupState(TypedDict):
     idea: str
-    analysis: str
+    
+    market_analysis: str
+    competitor_analysis: str
+    swot_analysis: str
+    financial_risk_analysis: str
+
+    investment_score: float
+    final_decision: str
+
     messages: List[Dict[str, Any]]
