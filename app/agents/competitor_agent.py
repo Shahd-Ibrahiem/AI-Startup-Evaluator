@@ -17,6 +17,7 @@ def competitor_agent(state):
 
     response = llm.invoke(prompt)
 
-    state["competitor_analysis"] = response.content
-
-    return state
+    return {
+        **state,
+        "competitor_analysis": response.content
+    }

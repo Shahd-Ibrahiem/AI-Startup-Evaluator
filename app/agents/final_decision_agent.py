@@ -1,4 +1,5 @@
 from app.llm import get_llm
+from app.utils.scoring import extract_score
 
 def final_decision_agent(state):
     llm = get_llm()
@@ -6,7 +7,13 @@ def final_decision_agent(state):
     prompt = f"""
     You are an investment decision system.
 
-    Based on:
+    Provide:
+    1. Investment score (0–100 format: X/100)
+    2. Decision: Invest / Consider / Reject
+    3. Reasoning
+
+    Idea:
+    {state["idea"]}
 
     Market:
     {state["market_analysis"]}
@@ -17,19 +24,16 @@ def final_decision_agent(state):
     SWOT:
     {state["swot_analysis"]}
 
-    Financial Risk:
+    Financial:
     {state["financial_risk_analysis"]}
-
-    TASK:
-    1. Give investment score (0–100)
-    2. Decide: Invest / Consider / Reject
-    3. Explain reasoning
     """
 
     response = llm.invoke(prompt)
 
+    score = extract_score(response.content)
+
     return {
         **state,
         "final_decision": response.content,
-        "investment_score": 0  # we can extract later
+        "investment_score": score
     }
