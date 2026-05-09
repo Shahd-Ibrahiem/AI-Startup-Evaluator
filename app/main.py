@@ -19,8 +19,17 @@ def main():
     print("\n===== MARKET ANALYSIS =====\n")
     print(result["market_analysis"])
 
-    print("\n===== COMPETITORS =====\n")
+    print("\n===== COMPETITORS ANALYSIS =====\n")
     print(result["competitor_analysis"])
+
+    print("\n===== SWOT ANALYSIS =====\n")
+    print(result["swot_analysis"])
+
+    print("\n===== FINANCIAL RISK ANALYSIS =====\n")
+    print(result["financial_risk_analysis"])
+
+    print("\n===== FINAL DECISION =====")
+    print(result["final_decision"])
 
     #print(result)
 

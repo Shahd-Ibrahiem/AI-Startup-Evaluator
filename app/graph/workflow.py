@@ -1,7 +1,11 @@
 from langgraph.graph import StateGraph
 from app.graph.state import StartupState
+
 from app.agents.market_agent import market_agent
 from app.agents.competitor_agent import competitor_agent
+from app.agents.swot_agent import swot_agent
+from app.agents.financial_agent import financial_agent
+from app.agents.final_decision_agent import final_decision_agent
 
 def create_workflow():
 
@@ -10,12 +14,18 @@ def create_workflow():
     # Add node
     graph.add_node("market_analysis", market_agent)
     graph.add_node("competitor_analysis", competitor_agent)
+    graph.add_node("swot_analysis", swot_agent)
+    graph.add_node("financial_risk_analysis", financial_agent)
+    graph.add_node("final_decision", final_decision_agent)
 
     # Define entry point
     graph.set_entry_point("market_analysis")
     graph.add_edge("market_analysis", "competitor_analysis")
+    graph.add_edge("competitor_analysis", "swot_analysis")
+    graph.add_edge("swot_analysis", "financial_risk_analysis")
+    graph.add_edge("financial_risk_analysis", "final_decision")
 
     # Define end point
-    graph.set_finish_point("competitor_analysis")
+    graph.set_finish_point("final_decision")
 
     return graph.compile()
