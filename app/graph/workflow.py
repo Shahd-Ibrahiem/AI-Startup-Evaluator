@@ -7,6 +7,15 @@ from app.agents.swot_agent import swot_agent
 from app.agents.financial_agent import financial_agent
 from app.agents.final_decision_agent import final_decision_agent
 
+
+def route_after_market(state):
+    score = state.get("market_score", 50)
+
+    if score < 50:
+        return "final_decision"
+    return "competitor_analysis"
+
+
 def create_workflow():
 
     graph = StateGraph(StartupState)
@@ -20,7 +29,17 @@ def create_workflow():
 
     # Define entry point
     graph.set_entry_point("market_analysis")
-    graph.add_edge("market_analysis", "competitor_analysis")
+
+    graph.add_conditional_edges(
+        "market_analysis",
+        route_after_market,
+        {
+            "competitor_analysis": "competitor_analysis",
+            "final_decision": "final_decision"
+        }
+    )
+
+    # Normal flow after competitors
     graph.add_edge("competitor_analysis", "swot_analysis")
     graph.add_edge("swot_analysis", "financial_risk_analysis")
     graph.add_edge("financial_risk_analysis", "final_decision")

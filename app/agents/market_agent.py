@@ -15,9 +15,16 @@ def market_agent(state):
     - Growth opportunity
     """
 
+    # simple heuristic
+    score = 70
+
     response = llm.invoke(prompt)
+
+    # simple heuristic
+    score = 70
 
     return {
         **state,
-        "market_analysis": response.content
+        "market_analysis": response.content,
+        "market_score": score
     }

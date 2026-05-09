@@ -8,6 +8,8 @@ class StartupState(TypedDict):
     swot_analysis: str
     financial_risk_analysis: str
 
+    market_score: int
+
     investment_score: float
     final_decision: str
 
