@@ -1,6 +1,7 @@
 from langgraph.graph import StateGraph
 from app.graph.state import StartupState
-
+from langgraph.checkpoint.sqlite import SqliteSaver
+import sqlite3
 from app.agents.market_agent import market_agent
 from app.agents.competitor_agent import competitor_agent
 from app.agents.swot_agent import swot_agent
@@ -46,5 +47,10 @@ def create_workflow():
 
     # Define end point
     graph.set_finish_point("final_decision")
+    
+    # <-- NEW PERMANENT MEMORY -->
+    # This creates a physical file named "checkpoints.db" in your folder to save everything forever
+    conn = sqlite3.connect("checkpoints.db", check_same_thread=False)
+    memory = SqliteSaver(conn)
+    return graph.compile(checkpointer=memory)
 
-    return graph.compile()
