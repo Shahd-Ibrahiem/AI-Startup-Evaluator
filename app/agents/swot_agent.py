@@ -1,6 +1,6 @@
 import time
 from langchain_core.prompts import ChatPromptTemplate
-from app.llm import llm
+from app.llm import get_llm
 
 def swot_agent(state):
     print("SWOT Agent is analyzing...")
@@ -29,6 +29,7 @@ def swot_agent(state):
         ("human", "Idea: {idea}\n\nMarket: {market}\n\nCompetitors: {competitors}\n\nPlease generate the SWOT analysis.")
     ])
     
+    llm = get_llm()
     chain = prompt | llm
     response = chain.invoke({
         "idea": idea, 

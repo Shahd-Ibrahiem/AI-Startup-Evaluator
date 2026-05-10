@@ -1,13 +1,14 @@
 import time
 from langgraph.prebuilt import create_react_agent
 from langchain_tavily import TavilySearch
-from app.llm import llm
+from app.llm import get_llm
 
 # 1. Initialize the Search Tool
 web_search_tool = TavilySearch(max_results=3)
 tools = [web_search_tool]
 
 # 2. Create the native LangGraph agent
+llm = get_llm()
 agent = create_react_agent(llm, tools)
 
 def competitor_agent(state):

@@ -1,11 +1,12 @@
 from langgraph.prebuilt import create_react_agent
 from langchain_tavily import TavilySearch
-from app.llm import llm
+from app.llm import get_llm
 import time
 
 # 1. Keep the Search Tool so it can look up real prices!
 web_search_tool = TavilySearch(max_results=3)
 tools = [web_search_tool]
+llm = get_llm()
 agent = create_react_agent(llm, tools)
 
 def financial_agent(state):

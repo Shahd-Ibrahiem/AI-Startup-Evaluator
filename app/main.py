@@ -1,5 +1,8 @@
 from app.graph.workflow import create_workflow
 
+from dotenv import load_dotenv
+load_dotenv()
+
 def main():
     workflow = create_workflow()
 
@@ -14,7 +17,15 @@ def main():
         "messages": []
     }
 
-    result = workflow.invoke(initial_state)
+    #result = workflow.invoke(initial_state)
+
+    result = workflow.invoke(initial_state,
+    config={
+        "configurable": {
+            "thread_id": "startup_evaluator_1"
+        }
+    })
+
 
     print("\n===== MARKET ANALYSIS =====\n")
     print(result["market_analysis"])

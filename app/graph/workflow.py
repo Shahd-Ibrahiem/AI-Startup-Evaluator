@@ -7,6 +7,8 @@ from app.agents.competitor_agent import competitor_agent
 from app.agents.swot_agent import swot_agent
 from app.agents.financial_agent import financial_agent
 from app.agents.final_decision_agent import final_decision_agent
+from dotenv import load_dotenv
+load_dotenv()
 
 
 def route_after_market(state):

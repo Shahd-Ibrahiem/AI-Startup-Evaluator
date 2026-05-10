@@ -1,6 +1,6 @@
 import time
 from langchain_core.prompts import ChatPromptTemplate
-from app.llm import llm
+from app.llm import get_llm
 from app.utils.scoring import extract_score
 
 def final_decision_agent(state):
@@ -29,6 +29,7 @@ def final_decision_agent(state):
         ("human", "Idea: {idea}\n\nMarket: {market}\n\nCompetitors: {competitors}\n\nSWOT: {swot}\n\nFinancial Risk: {financial}\n\nWhat is your final decision?")
     ])
     
+    llm = get_llm()
     chain = prompt | llm
     response = chain.invoke({
         "idea": idea, 

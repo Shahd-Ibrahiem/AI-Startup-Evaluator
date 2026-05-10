@@ -1,14 +1,17 @@
 from langgraph.prebuilt import create_react_agent
 from langchain_tavily import TavilySearch
-from app.llm import llm
+from app.llm import get_llm
 from app.utils.scoring import extract_score
 import time
+from dotenv import load_dotenv
+load_dotenv()
 
 # 1. Initialize the Search Tool properly
 web_search_tool = TavilySearch(max_results=3)
 tools = [web_search_tool]
 
 # 2. Create the ReAct agent (This automatically handles the tool-calling loop!)
+llm = get_llm()
 agent = create_react_agent(llm, tools)
 
 def market_agent(state):
