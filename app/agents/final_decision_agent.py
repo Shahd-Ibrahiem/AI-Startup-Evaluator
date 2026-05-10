@@ -5,8 +5,8 @@ from app.utils.scoring import extract_score
 
 def final_decision_agent(state):
     print("Final Decision Agent is making the call...")
-    print("⏳ Waiting 15 seconds to respect Google's free tier limits...")
-    time.sleep(15)
+    print("⏳ Waiting 5 seconds...")
+    time.sleep(5)
     
     # Safely get data from state
     idea = state.get("idea", "")

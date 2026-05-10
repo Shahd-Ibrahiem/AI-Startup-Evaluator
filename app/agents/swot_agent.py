@@ -4,8 +4,8 @@ from app.llm import get_llm
 
 def swot_agent(state):
     print("SWOT Agent is analyzing...")
-    print("⏳ Waiting 15 seconds to respect Google's free tier limits...")
-    time.sleep(15)
+    print("⏳ Waiting 5 seconds...")
+    time.sleep(5)
     
     # Safely get the context gathered by previous agents
     idea = state.get("idea", "")

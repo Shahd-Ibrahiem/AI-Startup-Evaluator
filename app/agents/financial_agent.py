@@ -11,8 +11,8 @@ agent = create_react_agent(llm, tools)
 
 def financial_agent(state):
     print("Financial Agent is crunching numbers...")
-    print("⏳ Waiting 15 seconds to respect Google's free tier limits...")
-    time.sleep(15)
+    print("⏳ Waiting 5 seconds...")
+    time.sleep(5)
     
     # 2. Safely get ALL the context like Code 2 did
     idea = state.get("idea", "")

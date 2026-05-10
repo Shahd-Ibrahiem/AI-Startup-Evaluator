@@ -16,8 +16,8 @@ agent = create_react_agent(llm, tools)
 
 def market_agent(state):
     print("Market Agent is researching...")
-    print("⏳ Waiting 15 seconds to respect Google's free tier limits...")
-    time.sleep(15)
+    print("⏳ Waiting 5 seconds...")
+    time.sleep(5)
     
     # Safely get the idea
     idea = state.get("idea", "")
