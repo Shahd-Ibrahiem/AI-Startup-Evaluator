@@ -3,6 +3,11 @@ from langgraph.prebuilt import create_react_agent
 from langchain_tavily import TavilySearch
 from app.llm import get_llm
 
+from app.rag.vector_store import load_vectorstore
+
+vectorstore = load_vectorstore()
+retriever = vectorstore.as_retriever()
+
 # 1. Initialize the Search Tool
 web_search_tool = TavilySearch(max_results=3)
 tools = [web_search_tool]
@@ -19,10 +24,18 @@ def competitor_agent(state):
     # Safely get context from previous steps
     idea = state.get("idea", "")
     market_analysis = state.get("market_analysis", "")
+
+    docs = retriever.invoke(idea)
+
+    context = "\n\n".join([d.page_content for d in docs])
     
     # Combine Code 1's tools with Code 2's specific formatting
     system_prompt = """You are an expert Competitor Analysis Agent. 
+
     You MUST use your web search tool to find real, current companies that compete directly or indirectly with this startup idea.
+
+    Use the following internal knowledge when relevant:
+    {context}
     
     Format your final report exactly with these headings:
     - Direct Competitors (Name the specific companies and what they do)

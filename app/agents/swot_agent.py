@@ -2,6 +2,11 @@ import time
 from langchain_core.prompts import ChatPromptTemplate
 from app.llm import get_llm
 
+from app.rag.vector_store import load_vectorstore
+
+vectorstore = load_vectorstore()
+retriever = vectorstore.as_retriever()
+
 def swot_agent(state):
     print("SWOT Agent is analyzing...")
     print("⏳ Waiting 5 seconds...")
@@ -11,10 +16,17 @@ def swot_agent(state):
     idea = state.get("idea", "")
     market = state.get("market_analysis", "")
     competitors = state.get("competitor_analysis", "")
+
+    docs = retriever.invoke(idea)
+
+    context = "\n\n".join([d.page_content for d in docs])
     
     prompt = ChatPromptTemplate.from_messages([
         ("system", """You are an elite Startup Strategy Analyst. 
         Read the provided startup idea, market analysis, and competitor research carefully.
+
+        Use the following internal knowledge when relevant:
+        {context}
         
         You MUST format your final response exactly with these four headings:
         - Strengths
@@ -34,7 +46,8 @@ def swot_agent(state):
     response = chain.invoke({
         "idea": idea, 
         "market": market, 
-        "competitors": competitors
+        "competitors": competitors,
+        "context": context
     })
     
     # ✅ FIX: Grab .content directly! No dictionary indexing here.

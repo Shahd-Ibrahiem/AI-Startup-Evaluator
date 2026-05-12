@@ -3,6 +3,11 @@ from langchain_tavily import TavilySearch
 from app.llm import get_llm
 import time
 
+from app.rag.vector_store import load_vectorstore
+
+vectorstore = load_vectorstore()
+retriever = vectorstore.as_retriever()
+
 # 1. Keep the Search Tool so it can look up real prices!
 web_search_tool = TavilySearch(max_results=3)
 tools = [web_search_tool]
@@ -19,11 +24,18 @@ def financial_agent(state):
     market = state.get("market_analysis", "")
     competitors = state.get("competitor_analysis", "")
     swot = state.get("swot_analysis", "")
+
+    docs = retriever.invoke(idea)
+
+    context = "\n\n".join([d.page_content for d in docs])
     
     # 3. Combine Code 1's role with Code 2's specific output format
     system_prompt = """You are an expert Financial Risk Analyst. 
     Use your web search tool to look up real, current costs, pricing models, and financial risks for this specific type of business.
     
+    Use the following internal knowledge when relevant:
+    {context}
+
     Your final report MUST be structured with these exact headings:
     - Cost Structure (Based on real current market prices)
     - Revenue Potential

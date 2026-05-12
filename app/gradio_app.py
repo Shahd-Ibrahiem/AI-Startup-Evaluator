@@ -42,7 +42,7 @@ def generate_pdf(text, score):
 
 
 # ---------------- Core Function ----------------
-def evaluate_startup(idea: str):
+def evaluate_startup(idea: str , request: gr.Request):
     if not idea.strip():
         return ("Please enter a startup idea", 0, "", "", "", "")
 
@@ -58,7 +58,7 @@ def evaluate_startup(idea: str):
             "final_decision": "",
             "messages": [],
         },
-        config={"configurable": {"thread_id": "gradio_session"}},
+        config={"configurable": {"thread_id": request.session_hash}},
     )
 
     score = result.get("investment_score", 0)
@@ -173,4 +173,5 @@ with gr.Blocks(title="AI Startup Evaluator") as demo:
 
 # ---------------- Run ----------------
 if __name__ == "__main__":
-    demo.launch(share=True)
+    #demo.launch(share=True)
+    demo.launch()

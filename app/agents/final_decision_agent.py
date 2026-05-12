@@ -3,6 +3,11 @@ from langchain_core.prompts import ChatPromptTemplate
 from app.llm import get_llm
 from app.utils.scoring import extract_score
 
+from app.rag.vector_store import load_vectorstore
+
+vectorstore = load_vectorstore()
+retriever = vectorstore.as_retriever()
+
 def final_decision_agent(state):
     print("Final Decision Agent is making the call...")
     print("⏳ Waiting 5 seconds...")
@@ -14,11 +19,18 @@ def final_decision_agent(state):
     competitors = state.get("competitor_analysis", "")
     swot = state.get("swot_analysis", "")
     financial = state.get("financial_risk_analysis", "")
+
+    docs = retriever.invoke(idea)
+
+    context = "\n\n".join([d.page_content for d in docs])
     
     prompt = ChatPromptTemplate.from_messages([
         ("system", """You are an elite venture capital Final Decision Agent. 
         Review the gathered data and output a final evaluation.
         
+        Use the following internal knowledge when relevant:
+        {context}
+
         You MUST format your response exactly like this:
         1. Investment Score: [Provide a score from 0 to 100, format: X/100]
         2. Decision: [Exactly 'Invest', 'Consider', or 'Avoid']
@@ -36,7 +48,8 @@ def final_decision_agent(state):
         "market": market, 
         "competitors": competitors,
         "swot": swot,
-        "financial": financial
+        "financial": financial,
+        "context": context
     })
     
     # ✅ FIX: Grab .content directly! No dictionary indexing here.

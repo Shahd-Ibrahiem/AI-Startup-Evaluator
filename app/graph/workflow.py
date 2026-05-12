@@ -8,8 +8,11 @@ from app.agents.swot_agent import swot_agent
 from app.agents.financial_agent import financial_agent
 from app.agents.final_decision_agent import final_decision_agent
 from dotenv import load_dotenv
+from app.rag.vector_store import load_vectorstore
 load_dotenv()
 
+vectorstore = load_vectorstore()
+retriever = vectorstore.as_retriever()
 
 def route_after_market(state):
     score = state.get("market_score", 50)

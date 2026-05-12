@@ -6,6 +6,11 @@ import time
 from dotenv import load_dotenv
 load_dotenv()
 
+from app.rag.vector_store import load_vectorstore
+
+vectorstore = load_vectorstore()
+retriever = vectorstore.as_retriever()
+
 # 1. Initialize the Search Tool properly
 web_search_tool = TavilySearch(max_results=3)
 tools = [web_search_tool]
@@ -21,15 +26,24 @@ def market_agent(state):
     
     # Safely get the idea
     idea = state.get("idea", "")
+
+    docs = retriever.invoke(idea)
+
+    context = "\n\n".join([d.page_content for d in docs])
     
     # Combine Code 1's role with Code 2's specific formatting
-    system_prompt = """You are an expert Market Research Analyst. 
-    You MUST use your web search tool to find recent real-world data, market size estimates, and current trends.
-    
+    system_prompt = f"""You are an expert Market Research Analyst.
+
+    You MUST use your web search tool.
+
+    Relevant Internal Knowledge:
+    {context}
+
     Format your final analysis exactly with these headings:
-    - Market Potential (Include estimated market size in dollars if found)
+    - Market Potential
     - Target Customers
-    - Growth Opportunity"""
+    - Growth Opportunity
+    """
     
     user_prompt = f"Analyze the market for this startup idea: {idea}"
     
