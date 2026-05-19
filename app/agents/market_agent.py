@@ -2,6 +2,7 @@ from langgraph.prebuilt import create_react_agent
 from langchain_tavily import TavilySearch
 from app.llm import get_llm
 from app.utils.scoring import extract_score
+from app.rag.rag_pipeline import build_rag_chain
 import time
 from dotenv import load_dotenv
 load_dotenv()
@@ -27,9 +28,13 @@ def market_agent(state):
     # Safely get the idea
     idea = state.get("idea", "")
 
-    docs = retriever.invoke(idea)
+    rag_chain = build_rag_chain(retriever)
 
-    context = "\n\n".join([d.page_content for d in docs])
+    rag_data = rag_chain.invoke({
+        "query": idea
+    })
+
+    context = rag_data["context"]
     
     # Combine Code 1's role with Code 2's specific formatting
     system_prompt = f"""You are an expert Market Research Analyst.
@@ -39,10 +44,23 @@ def market_agent(state):
     Relevant Internal Knowledge:
     {context}
 
+    Scoring Rules:
+    - Give scores BELOW 50 for outdated, low-demand, impractical, unrealistic, or obsolete business ideas.
+    - Give scores BETWEEN 50 and 70 for average or uncertain ideas.
+    - Give scores ABOVE 70 only for highly scalable, modern, high-demand startup ideas.
+
+    Examples of LOW scoring ideas:
+    - DVD rental businesses
+    - Printed map navigation businesses
+    - Fax machine services
+    - CD delivery startups
+    Be strict and realistic. Do NOT inflate scores.
+
     Format your final analysis exactly with these headings:
     - Market Potential
     - Target Customers
     - Growth Opportunity
+    - Market Score: [Provide a score from 0 to 100 in format X/100]
     """
     
     user_prompt = f"Analyze the market for this startup idea: {idea}"

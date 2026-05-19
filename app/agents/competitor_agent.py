@@ -1,6 +1,7 @@
 import time
 from langgraph.prebuilt import create_react_agent
 from langchain_tavily import TavilySearch
+from app.rag.rag_pipeline import build_rag_chain
 from app.llm import get_llm
 
 from app.rag.vector_store import load_vectorstore
@@ -25,12 +26,16 @@ def competitor_agent(state):
     idea = state.get("idea", "")
     market_analysis = state.get("market_analysis", "")
 
-    docs = retriever.invoke(idea)
+    rag_chain = build_rag_chain(retriever)
 
-    context = "\n\n".join([d.page_content for d in docs])
+    rag_data = rag_chain.invoke({
+        "query": idea
+    })
+
+    context = rag_data["context"]
     
     # Combine Code 1's tools with Code 2's specific formatting
-    system_prompt = """You are an expert Competitor Analysis Agent. 
+    system_prompt = f"""You are an expert Competitor Analysis Agent. 
 
     You MUST use your web search tool to find real, current companies that compete directly or indirectly with this startup idea.
 

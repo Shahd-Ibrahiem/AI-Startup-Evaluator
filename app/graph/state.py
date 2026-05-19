@@ -1,4 +1,6 @@
 from typing import TypedDict, List, Dict, Any
+from typing_extensions import Annotated
+from operator import add
 
 class StartupState(TypedDict):
     idea: str
@@ -13,4 +15,4 @@ class StartupState(TypedDict):
     investment_score: float
     final_decision: str
 
-    messages: List[Dict[str, Any]]
+    messages: Annotated[List[Dict[str, Any]], add]

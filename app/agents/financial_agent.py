@@ -1,5 +1,6 @@
 from langgraph.prebuilt import create_react_agent
 from langchain_tavily import TavilySearch
+from app.rag.rag_pipeline import build_rag_chain
 from app.llm import get_llm
 import time
 
@@ -25,12 +26,16 @@ def financial_agent(state):
     competitors = state.get("competitor_analysis", "")
     swot = state.get("swot_analysis", "")
 
-    docs = retriever.invoke(idea)
+    rag_chain = build_rag_chain(retriever)
 
-    context = "\n\n".join([d.page_content for d in docs])
+    rag_data = rag_chain.invoke({
+        "query": idea
+    })
+
+    context = rag_data["context"]
     
     # 3. Combine Code 1's role with Code 2's specific output format
-    system_prompt = """You are an expert Financial Risk Analyst. 
+    system_prompt = f"""You are an expert Financial Risk Analyst. 
     Use your web search tool to look up real, current costs, pricing models, and financial risks for this specific type of business.
     
     Use the following internal knowledge when relevant:

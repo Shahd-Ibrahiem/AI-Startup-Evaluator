@@ -1,5 +1,6 @@
 import time
 from langchain_core.prompts import ChatPromptTemplate
+from app.rag.rag_pipeline import build_rag_chain
 from app.llm import get_llm
 from app.utils.scoring import extract_score
 
@@ -20,9 +21,25 @@ def final_decision_agent(state):
     swot = state.get("swot_analysis", "")
     financial = state.get("financial_risk_analysis", "")
 
-    docs = retriever.invoke(idea)
+    rag_chain = build_rag_chain(retriever)
 
-    context = "\n\n".join([d.page_content for d in docs])
+    rag_data = rag_chain.invoke({
+        "query": idea
+    })
+
+    context = rag_data["context"]
+
+    market_score = state.get("market_score", 0)
+
+    if market_score < 50:
+        return {
+            "final_decision": """
+            1. Investment Score: 20/100
+            2. Decision: Avoid
+            3. Reasoning: The startup idea showed weak market potential during the initial market analysis stage. The workflow automatically terminated early to avoid unnecessary deep analysis due to low market viability.
+            """,
+        "investment_score": 20
+        }
     
     prompt = ChatPromptTemplate.from_messages([
         ("system", """You are an elite venture capital Final Decision Agent. 

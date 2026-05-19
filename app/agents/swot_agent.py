@@ -1,7 +1,7 @@
 import time
 from langchain_core.prompts import ChatPromptTemplate
+from app.rag.rag_pipeline import build_rag_chain
 from app.llm import get_llm
-
 from app.rag.vector_store import load_vectorstore
 
 vectorstore = load_vectorstore()
@@ -17,9 +17,13 @@ def swot_agent(state):
     market = state.get("market_analysis", "")
     competitors = state.get("competitor_analysis", "")
 
-    docs = retriever.invoke(idea)
+    rag_chain = build_rag_chain(retriever)
 
-    context = "\n\n".join([d.page_content for d in docs])
+    rag_data = rag_chain.invoke({
+        "query": idea
+    })
+
+    context = rag_data["context"]
     
     prompt = ChatPromptTemplate.from_messages([
         ("system", """You are an elite Startup Strategy Analyst. 

@@ -16,9 +16,14 @@ retriever = vectorstore.as_retriever()
 
 def route_after_market(state):
     score = state.get("market_score", 50)
+    print("=== CONDITIONAL ROUTING ===")
+    print("Market Score:", score)
 
     if score < 50:
+        print("Routing directly to FINAL DECISION")
         return "final_decision"
+
+    print("Routing to COMPETITOR ANALYSIS")
     return "competitor_analysis"
 
 
