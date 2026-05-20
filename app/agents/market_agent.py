@@ -49,11 +49,6 @@ def market_agent(state):
     - Give scores BETWEEN 50 and 70 for average or uncertain ideas.
     - Give scores ABOVE 70 only for highly scalable, modern, high-demand startup ideas.
 
-    Examples of LOW scoring ideas:
-    - DVD rental businesses
-    - Printed map navigation businesses
-    - Fax machine services
-    - CD delivery startups
     Be strict and realistic. Do NOT inflate scores.
 
     Format your final analysis exactly with these headings:
@@ -92,3 +87,13 @@ def market_agent(state):
         "market_analysis": final_answer,
         "market_score": score
     }
+
+
+
+'''
+Examples of LOW scoring ideas:
+    - DVD rental businesses
+    - Printed map navigation businesses
+    - Fax machine services
+    - CD delivery startups
+'''

@@ -40,52 +40,9 @@ def generate_pdf(text, score):
     doc.build(content)
     return file_path
 
-classifier_llm = get_llm()
-def detect_input_type(user_input: str):
-
-    prompt = f"""
-    Classify the following input.
-
-    If it describes a business, startup, app, platform, service, or idea to evaluate,
-    return ONLY:
-    startup
-
-    Otherwise return ONLY:
-    general
-
-    Input:
-    {user_input}
-    """
-
-    response = classifier_llm.invoke(prompt)
-
-    result = response.content.strip().lower()
-
-    return result
 
 # ---------------- Core Function ----------------
 def evaluate_startup(idea: str , request: gr.Request):
-    input_type = detect_input_type(idea)
-    if input_type == "general":
-
-        status = "💬 General Assistant Mode"
-        llm = get_llm()
-
-        response = llm.invoke(idea)
-
-        answer = response.content
-
-        return (
-            answer,
-            0,
-            "",
-            "",
-            "",
-            "",
-        )
-
-    if not idea.strip():
-        return ("Please enter a startup idea", 0, "", "", "", "")
 
     status = "🚀 Startup Evaluation Mode"
     result = workflow.invoke(

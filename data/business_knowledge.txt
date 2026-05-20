@@ -3,3 +3,67 @@ Startup success factors:
 - Strong MVP is critical
 - Competition affects funding
 - Revenue model must be clear
+
+Startup Evaluation Knowledge Base
+
+Market Validation:
+- Startups solving real customer pain points have higher success probability.
+- Strong market demand is one of the biggest indicators of startup viability.
+- Products without clear target customers often fail to scale.
+- Market timing strongly affects startup adoption and growth.
+
+Business Models:
+- Subscription-based models provide recurring revenue and better customer retention.
+- Marketplace businesses require balancing supply and demand.
+- Freemium models can attract users quickly but may struggle with monetization.
+- High customer acquisition cost can reduce profitability.
+
+Competition:
+- Highly saturated markets make differentiation difficult.
+- Strong competitors with established user bases create barriers to entry.
+- Startups with unique value propositions are more attractive to investors.
+- Lack of competitors may indicate weak market demand.
+
+Financial Risk:
+- Hardware startups usually require higher initial capital.
+- Logistics businesses often have operational complexity and scaling costs.
+- AI startups may require expensive GPU infrastructure and model hosting.
+- SaaS startups typically have lower operational costs compared to physical businesses.
+- Cash flow management is critical during early-stage growth.
+
+Growth Indicators:
+- Scalable digital products are preferred by investors.
+- Businesses with global market potential have stronger investment appeal.
+- Automation and AI integration can improve scalability.
+- Startups with network effects often achieve faster growth.
+
+Startup Failure Risks:
+- Poor market fit is one of the main causes of startup failure.
+- Weak monetization strategies reduce investor confidence.
+- Dependence on outdated technology lowers long-term viability.
+- Businesses replacing already-free solutions may struggle commercially.
+
+Industry Insights:
+- AI healthcare startups face regulatory challenges.
+- FinTech startups require strong security and compliance measures.
+- EdTech startups benefit from remote learning trends.
+- Green technology startups are gaining investor attention globally.
+- E-commerce competition is extremely high in saturated markets.
+
+Investment Evaluation:
+- Investors prefer startups with clear differentiation.
+- Large Total Addressable Market (TAM) increases funding attractiveness.
+- Strong founding teams improve startup credibility.
+- Sustainable revenue generation is more important than rapid hype-driven growth.
+
+Examples of Rejected Startup Ideas:
+- Printed city navigation maps have low modern demand because smartphones dominate navigation.
+- Physical newspaper delivery services are declining due to digital media adoption.
+- DVD rental businesses face major competition from streaming platforms.
+- Internet cafes have declining relevance in regions with widespread mobile internet access.
+
+Examples of Strong Startup Ideas:
+- AI-powered healthcare assistants improve operational efficiency.
+- Cybersecurity SaaS platforms have growing enterprise demand.
+- AI-based educational platforms support personalized learning.
+- Smart agriculture solutions improve farming productivity and sustainability.
